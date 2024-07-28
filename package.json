@@ -1,13 +1,28 @@
 {
-  "name": "ml-form-project",
+  "name": "ml-multistep-form",
   "version": "1.0.0",
-  "description": "ML Form Finder Project",
-  "main": "server.js",
+  "description": "Multi-step form for Webflow",
+  "main": "dist/ml-multistep-form.min.js",
   "scripts": {
-    "start": "node server.js"
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
   },
-  "dependencies": {
-    "express": "^4.17.1",
-    "cors": "^2.8.5"
+  "keywords": [
+    "webflow",
+    "form",
+    "multistep"
+  ],
+  "author": "Liam Miller",
+  "license": "ISC",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LiamMillerDev/Progressive-Profiling.git"
+  },
+  "devDependencies": {
+    "rollup": "^3.25.0",
+    "@rollup/plugin-terser": "^0.4.3"
   }
 }
