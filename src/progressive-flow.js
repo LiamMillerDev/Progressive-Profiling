@@ -21,7 +21,7 @@ const addStyles = () => {
   const style = document.createElement("style");
   style.textContent = `
     .error { border-color: red; }
-    [pf\\:step] { display: none; }
+    [pf="step-email"], [pf="step-first_name"], [pf="step-last_name"], [pf="step-company"] { display: none; }
     .error-message { color: red; font-size: 12px; margin-top: 5px; }
   `;
   document.head.appendChild(style);
@@ -42,15 +42,15 @@ const clearErrorMessage = (element) => {
 };
 
 const showStep = (step) => {
-  const stepElement = document.querySelector(`[pf\\:step="${step}"]`);
+  const stepElement = document.querySelector(`[pf="step-${step}"]`);
   if (stepElement) {
     stepElement.style.display = "block";
-    stepElement.querySelector(`[pf\\:${step}]`)?.focus();
+    stepElement.querySelector(`[pf="${step}"]`)?.focus();
   }
 };
 
 const hideStep = (step) => {
-  const stepElement = document.querySelector(`[pf\\:step="${step}"]`);
+  const stepElement = document.querySelector(`[pf="step-${step}"]`);
   if (stepElement) {
     stepElement.style.display = "none";
   }
@@ -102,8 +102,8 @@ const submitUserData = async (userData) => {
 const initializeProgressiveFlow = () => {
   try {
     addStyles();
-    const form = document.querySelector("[pf\\:form]");
-    if (!form) throw new Error("No form with pf:form found");
+    const form = document.querySelector('[pf="form"]');
+    if (!form) throw new Error('No form with pf="form" found');
 
     form.addEventListener("click", handleNavigation);
     form.addEventListener("keydown", handleKeydown);
@@ -116,10 +116,10 @@ const initializeProgressiveFlow = () => {
 
 const handleNavigation = (event) => {
   const target = event.target;
-  if (target.matches("[pf\\:next]")) {
+  if (target.matches('[pf="next"]')) {
     event.preventDefault();
     handleNextStep();
-  } else if (target.matches("[pf\\:submit]")) {
+  } else if (target.matches('[pf="submit"]')) {
     event.preventDefault();
     handleSubmit();
   }
@@ -146,7 +146,7 @@ const handleNextStep = async () => {
       } catch (error) {
         console.error("Error fetching user data:", error);
         showErrorMessage(
-          document.querySelector(`[pf\\:${currentStep}]`),
+          document.querySelector(`[pf="${currentStep}"]`),
           error.message
         );
         return;
@@ -171,7 +171,7 @@ const determineNextStep = () => {
 };
 
 const validateField = (field) => {
-  const input = document.querySelector(`[pf\\:${field}]`);
+  const input = document.querySelector(`[pf="${field}"]`);
   if (!input?.value.trim()) {
     showErrorMessage(input, "This field is required.");
     return false;
@@ -182,7 +182,7 @@ const validateField = (field) => {
 
 const updateUserData = (field) => {
   if (!userData) userData = {};
-  const input = document.querySelector(`[pf\\:${field}]`);
+  const input = document.querySelector(`[pf="${field}"]`);
   if (input) userData[field] = input.value;
 };
 
@@ -200,12 +200,12 @@ const handleSubmit = async () => {
 
     // Update Webflow form fields
     Object.entries(userData).forEach(([key, value]) => {
-      const input = document.querySelector(`[pf\\:${key}]`);
+      const input = document.querySelector(`[pf="${key}"]`);
       if (input) input.value = value;
     });
 
     // Submit the Webflow form
-    const form = document.querySelector("[pf\\:form]");
+    const form = document.querySelector('[pf="form"]');
     const submitEvent = new Event("submit", {
       bubbles: true,
       cancelable: true,
@@ -214,7 +214,7 @@ const handleSubmit = async () => {
   } catch (error) {
     console.error("Error submitting form:", error);
     showErrorMessage(
-      document.querySelector(`[pf\\:${currentStep}]`),
+      document.querySelector(`[pf="${currentStep}"]`),
       error.message || "Failed to submit form. Please try again."
     );
   }
