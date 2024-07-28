@@ -9,8 +9,12 @@ let userData = null;
 
 // Utility functions
 const log = (...args) => DEBUG && console.log("[ML Form]", ...args);
-const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(String(email).toLowerCase());
-const isUserDataComplete = (data) => STEPS.every((field) => data?.[field]?.trim() !== "");
+const validateEmail = (email) =>
+  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+    String(email).toLowerCase()
+  );
+const isUserDataComplete = (data) =>
+  STEPS.every((field) => data?.[field]?.trim() !== "");
 
 // DOM manipulation functions
 const addStyles = () => {
@@ -46,16 +50,22 @@ const showStep = (step) => {
 };
 
 const hideStep = (step) => {
-  document.querySelector(`[ml="${step}-step"]`)?.style.display = "none";
+  const stepElement = document.querySelector(`[ml="${step}-step"]`);
+  if (stepElement) {
+    stepElement.style.display = "none";
+  }
 };
 
 // API functions
 const fetchUserData = async (email) => {
   try {
-    const response = await fetch(`${API_ENDPOINT}/${encodeURIComponent(email)}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await fetch(
+      `${API_ENDPOINT}/${encodeURIComponent(email)}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
 
     if (response.status === 404) {
       return { email, first_name: "", last_name: "", company: "" };
@@ -135,7 +145,10 @@ const handleNextStep = async () => {
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
-        showErrorMessage(document.querySelector(`[ml="${currentStep}"]`), error.message);
+        showErrorMessage(
+          document.querySelector(`[ml="${currentStep}"]`),
+          error.message
+        );
         return;
       }
     }
@@ -152,7 +165,9 @@ const handleNextStep = async () => {
 
 const determineNextStep = () => {
   const currentIndex = STEPS.indexOf(currentStep);
-  return STEPS.slice(currentIndex + 1).find(step => !userData?.[step]?.trim());
+  return STEPS.slice(currentIndex + 1).find(
+    (step) => !userData?.[step]?.trim()
+  );
 };
 
 const validateField = (field) => {
@@ -191,7 +206,10 @@ const handleSubmit = async () => {
 
     // Submit the Webflow form
     const form = document.querySelector('[ml="form"]');
-    const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
+    const submitEvent = new Event("submit", {
+      bubbles: true,
+      cancelable: true,
+    });
     form.dispatchEvent(submitEvent);
   } catch (error) {
     console.error("Error submitting form:", error);
