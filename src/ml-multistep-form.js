@@ -61,13 +61,15 @@
       try {
         userData = await fetchUserData(emailInput.value);
         log("User data fetched:", userData);
+
         const nextField = determineNextField(userData);
         if (nextField) {
           hideStep("email");
           showStep(nextField);
           currentStep = nextField;
         } else {
-          showAllFieldsFilledMessage();
+          // All fields are filled, submit the form
+          await submitForm();
         }
       } catch (error) {
         console.error("Error handling email step:", error);
@@ -152,12 +154,6 @@
     if (stepElement) stepElement.style.display = "none";
   }
 
-  function showAllFieldsFilledMessage() {
-    const form = document.querySelector('[ml="form"]');
-    form.innerHTML =
-      "<h2>Thank you! We already have all your information.</h2>";
-  }
-
   async function handleSubmit() {
     if (!userData) {
       console.error("User data is not initialized");
@@ -217,18 +213,10 @@
       const result = await response.json();
       log("Form submitted successfully:", result);
 
-      // Show next field or success message
-      const nextField = determineNextField(userData);
-      if (nextField) {
-        hideStep(currentStep);
-        showStep(nextField);
-        currentStep = nextField;
-      } else {
-        // All fields are filled, show success message
-        const form = document.querySelector('[ml="form"]');
-        form.innerHTML =
-          "<h2>Thank you! Your information has been submitted successfully.</h2>";
-      }
+      // Show success message
+      const form = document.querySelector('[ml="form"]');
+      form.innerHTML =
+        "<h2>Thank you! Your information has been submitted successfully.</h2>";
     } catch (error) {
       console.error("Error submitting form:", error);
       showErrorMessage(
