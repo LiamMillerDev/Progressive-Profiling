@@ -4,23 +4,15 @@
   "description": "Multi-step form for Webflow",
   "main": "dist/ml-multistep-form.min.js",
   "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -c -w"
+    "build": "rollup -c"
   },
   "keywords": [
     "webflow",
     "form",
     "multistep"
   ],
-  "author": "Liam Miller",
+  "author": "Your Name",
   "license": "ISC",
-  "files": [
-    "dist"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/LiamMillerDev/Progressive-Profiling.git"
-  },
   "devDependencies": {
     "rollup": "^3.25.0",
     "@rollup/plugin-terser": "^0.4.3"
