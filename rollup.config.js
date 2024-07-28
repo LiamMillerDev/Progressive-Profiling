@@ -1,17 +1,17 @@
 import terser from "@rollup/plugin-terser";
 
 export default {
-  input: "src/ml-multistep-form.js",
+  input: "src/progressiveflow.js",
   output: [
     {
-      file: "dist/ml-multistep-form.min.js",
+      file: "dist/progressiveflow.js",
       format: "iife",
-      name: "MLMultiStepForm",
+      name: "progressiveflow",
     },
     {
-      file: "docs/ml-multistep-form.min.js",
+      file: "docs/progressiveflow.js",
       format: "iife",
-      name: "MLMultiStepForm",
+      name: "progressiveflow",
     },
   ],
   plugins: [terser()],

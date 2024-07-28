@@ -3,10 +3,10 @@ const cors = require("cors");
 const app = express();
 const port = 3000;
 
-// Configure CORS to allow requests from your Webflow site
+// Configure CORS to allow requests from any origin
 app.use(
   cors({
-    origin: "https://liams-five-star-site-be68de.webflow.io/", // Replace with your Webflow site URL
+    origin: "*", // This allows any website to make requests to your server
     credentials: true,
   })
 );
