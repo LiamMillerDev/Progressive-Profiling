@@ -8,7 +8,7 @@ let currentStep = "email";
 let userData = null;
 
 // Utility functions
-const log = (...args) => DEBUG && console.log("[ML Form]", ...args);
+const log = (...args) => DEBUG && console.log("[ProgressiveFlow]", ...args);
 const validateEmail = (email) =>
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
     String(email).toLowerCase()
@@ -21,7 +21,7 @@ const addStyles = () => {
   const style = document.createElement("style");
   style.textContent = `
     .error { border-color: red; }
-    [ml$="-step"] { display: none; }
+    [pf\\:step] { display: none; }
     .error-message { color: red; font-size: 12px; margin-top: 5px; }
   `;
   document.head.appendChild(style);
@@ -42,15 +42,15 @@ const clearErrorMessage = (element) => {
 };
 
 const showStep = (step) => {
-  const stepElement = document.querySelector(`[ml="${step}-step"]`);
+  const stepElement = document.querySelector(`[pf\\:step="${step}"]`);
   if (stepElement) {
     stepElement.style.display = "block";
-    stepElement.querySelector(`[ml="${step}"]`)?.focus();
+    stepElement.querySelector(`[pf\\:${step}]`)?.focus();
   }
 };
 
 const hideStep = (step) => {
-  const stepElement = document.querySelector(`[ml="${step}-step"]`);
+  const stepElement = document.querySelector(`[pf\\:step="${step}"]`);
   if (stepElement) {
     stepElement.style.display = "none";
   }
@@ -99,16 +99,16 @@ const submitUserData = async (userData) => {
 };
 
 // Form handling functions
-const initializeMultiStepForm = () => {
+const initializeProgressiveFlow = () => {
   try {
     addStyles();
-    const form = document.querySelector('[ml="form"]');
-    if (!form) throw new Error('No form with ml="form" found');
+    const form = document.querySelector("[pf\\:form]");
+    if (!form) throw new Error("No form with pf:form found");
 
     form.addEventListener("click", handleNavigation);
     form.addEventListener("keydown", handleKeydown);
     showStep("email");
-    log("Multi-step form initialized");
+    log("ProgressiveFlow form initialized");
   } catch (error) {
     console.error("Error initializing form:", error);
   }
@@ -116,10 +116,10 @@ const initializeMultiStepForm = () => {
 
 const handleNavigation = (event) => {
   const target = event.target;
-  if (target.matches('[ml="next"]')) {
+  if (target.matches("[pf\\:next]")) {
     event.preventDefault();
     handleNextStep();
-  } else if (target.matches('[ml="submit"]')) {
+  } else if (target.matches("[pf\\:submit]")) {
     event.preventDefault();
     handleSubmit();
   }
@@ -146,7 +146,7 @@ const handleNextStep = async () => {
       } catch (error) {
         console.error("Error fetching user data:", error);
         showErrorMessage(
-          document.querySelector(`[ml="${currentStep}"]`),
+          document.querySelector(`[pf\\:${currentStep}]`),
           error.message
         );
         return;
@@ -171,7 +171,7 @@ const determineNextStep = () => {
 };
 
 const validateField = (field) => {
-  const input = document.querySelector(`[ml="${field}"]`);
+  const input = document.querySelector(`[pf\\:${field}]`);
   if (!input?.value.trim()) {
     showErrorMessage(input, "This field is required.");
     return false;
@@ -182,7 +182,7 @@ const validateField = (field) => {
 
 const updateUserData = (field) => {
   if (!userData) userData = {};
-  const input = document.querySelector(`[ml="${field}"]`);
+  const input = document.querySelector(`[pf\\:${field}]`);
   if (input) userData[field] = input.value;
 };
 
@@ -200,12 +200,12 @@ const handleSubmit = async () => {
 
     // Update Webflow form fields
     Object.entries(userData).forEach(([key, value]) => {
-      const input = document.querySelector(`[ml="${key}"]`);
+      const input = document.querySelector(`[pf\\:${key}]`);
       if (input) input.value = value;
     });
 
     // Submit the Webflow form
-    const form = document.querySelector('[ml="form"]');
+    const form = document.querySelector("[pf\\:form]");
     const submitEvent = new Event("submit", {
       bubbles: true,
       cancelable: true,
@@ -214,7 +214,7 @@ const handleSubmit = async () => {
   } catch (error) {
     console.error("Error submitting form:", error);
     showErrorMessage(
-      document.querySelector(`[ml="${currentStep}"]`),
+      document.querySelector(`[pf\\:${currentStep}]`),
       error.message || "Failed to submit form. Please try again."
     );
   }
@@ -222,7 +222,7 @@ const handleSubmit = async () => {
 
 // Initialize the form when the DOM is ready
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initializeMultiStepForm);
+  document.addEventListener("DOMContentLoaded", initializeProgressiveFlow);
 } else {
-  initializeMultiStepForm();
+  initializeProgressiveFlow();
 }
