@@ -14,7 +14,7 @@
   "author": "Your Name",
   "license": "ISC",
   "devDependencies": {
-    "rollup": "^3.25.0",
+    "rollup": "2.79.1",
     "@rollup/plugin-terser": "^0.4.3"
   }
 }
