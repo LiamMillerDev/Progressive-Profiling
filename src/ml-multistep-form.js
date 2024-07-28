@@ -15,6 +15,7 @@
       if (!form) throw new Error('No form with ml="form" found');
 
       form.addEventListener("click", handleNavigation);
+      form.addEventListener("keydown", handleKeydown);
       showStep("email");
       log("Multi-step form initialized");
     } catch (error) {
@@ -40,6 +41,17 @@
     } else if (target.matches('[ml="submit"]')) {
       event.preventDefault();
       handleSubmit();
+    }
+  }
+
+  function handleKeydown(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (currentStep === "email") {
+        handleEmailStep();
+      } else {
+        handleSubmit();
+      }
     }
   }
 
