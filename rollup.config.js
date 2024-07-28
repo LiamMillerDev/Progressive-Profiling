@@ -1,17 +1,17 @@
 import terser from "@rollup/plugin-terser";
 
 export default {
-  input: "src/progressiveflow.js",
+  input: "src/progressive-flow.js",
   output: [
     {
-      file: "dist/progressiveflow.js",
+      file: "dist/progressive-flow.min.js",
       format: "iife",
-      name: "progressiveflow",
+      name: "ProgressiveFlow",
     },
     {
-      file: "docs/progressiveflow.js",
+      file: "docs/progressive-flow.min.js",
       format: "iife",
-      name: "progressiveflow",
+      name: "ProgressiveFlow",
     },
   ],
   plugins: [terser()],

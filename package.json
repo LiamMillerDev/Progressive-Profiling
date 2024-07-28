@@ -1,15 +1,16 @@
 {
-  "name": "ml-multistep-form",
+  "name": "progressive-flow",
   "version": "1.0.0",
-  "description": "Multi-step form for Webflow",
-  "main": "dist/ml-multistep-form.min.js",
+  "description": "Progressive profiling form for Webflow",
+  "main": "dist/progressive-flow.min.js",
   "scripts": {
     "build": "rollup -c"
   },
   "keywords": [
     "webflow",
     "form",
-    "multistep"
+    "progressive",
+    "profiling"
   ],
   "author": "Your Name",
   "license": "ISC",
